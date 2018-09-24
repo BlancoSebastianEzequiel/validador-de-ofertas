@@ -4,6 +4,7 @@
 (defn normalize-data [j]
   (json/write-str (json/read-str j)))
 
+;; atomic rules
 (def common-rules (normalize-data "[
         {
             \"code\": \"MES_SEPTIEMBRE\",
@@ -85,6 +86,7 @@
         }
     ]"))
 
+;; offers
 (def common-offers (normalize-data "[
         {
             \"description\": \"10% de descuento en lácteos durante Septiembre\",
@@ -114,6 +116,7 @@
         }
     ]"))
 
+;; SHOPPING_CART
 (def first-sale (normalize-data "{
     \"products\": [
         {
@@ -242,6 +245,7 @@
     }
   }"))
 
+;; Results
 (def first-sale-result (normalize-data "[
         {
             \"description\": \"10% de descuento en lácteos durante Septiembre\",
@@ -295,6 +299,7 @@
         }
     ]"))
 
+;; SHOPPING_CART
 (def second-sale (normalize-data "{
     \"products\": [
         {
@@ -353,6 +358,7 @@
     }
   }"))
 
+;; Results
 (def second-sale-result (normalize-data "[
         {
             \"description\": \"10% de descuento en lácteos durante Septiembre\",
@@ -366,6 +372,7 @@
         }
     ]"))
 
+;; SHOPPING_CART​
 (def bad-payment-sale (normalize-data "{
     \"products\": [{
             \"name\": \"Leche Descremada 1L, la Calmisima\",
