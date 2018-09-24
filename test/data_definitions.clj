@@ -4,7 +4,7 @@
 (defn normalize-data [j]
   (json/write-str (json/read-str j)))
 
-;; atomic rules
+;; Rules
 (def common-rules (normalize-data "[
         {
             \"code\": \"MES_SEPTIEMBRE\",
