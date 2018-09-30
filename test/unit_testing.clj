@@ -1,6 +1,7 @@
 (ns unit_testing
-  (:require [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
+    [translations :refer :all]))
 
 (deftest translate-some-month
   (testing "Test translations applied to SEPTEMBER"
-  (is (= (translations "SEPTEMBER") "SEPTIEMBRE"))))
+  (is (= (translate "SEPTEMBER") "SEPTIEMBRE"))))
