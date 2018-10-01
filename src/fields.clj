@@ -1,56 +1,21 @@
 (ns fields
-  ; (require '[clojure.string :as str])
+  (require [clojure.string :as str]
+  )
 )
 
-; (str/split "Clojure is awesome!" #" ")
+(defmulti translate (fn [value] value))
+(defmethod translate "PRODUCT" [value] "products")
+(defmethod translate "CALENDAR" [value] "purchase_date")
+(defmethod translate "PAYMENT" [value] "payment")
 
-(defmulti get_field (fn [rule prod] (rule "field")))
-(defmethod get_field "PRODUCT.category.code" [rule prod]
-  (let
-    [
-      field (((prod "products") "category") "code")
-    ]
-  )
+(defn get_path [rule]
+  (str/split (rule "field") #"\.")
 )
-(defmethod get_field "PRODUCT.brand.code" [rule prod]
-  (let
-    [
-      field (((prod "products") "brand") "code")
-    ]
-  )
+
+(defn rule_field_path [rule]
+  (assoc (get_path rule) 0 (translate (first (get_path rule))))
 )
-(defmethod get_field "PRODUCT.code" [rule prod]
-  (let
-    [
-      field ((prod "products") "code")
-    ]
-  )
-)
-(defmethod get_field "PRODUCT.price" [rule prod]
-  (let
-    [
-      field ((prod "products") "price")
-    ]
-  )
-)
-(defmethod get_field "CALENDAR.month" [rule prod]
-  (let
-    [
-      field ((prod "purchase_date") "month")
-    ]
-  )
-)
-(defmethod get_field "PAYMENT.bank" [rule prod]
-  (let
-    [
-      field ((prod "payment") "bank")
-    ]
-  )
-)
-(defmethod get_field "PAYMENT.method" [rule prod]
-  (let
-    [
-      field ((prod "payment") "method")
-    ]
-  )
+
+(defn get_field [product rule]
+  (get-in product (rule_field_path rule))
 )
