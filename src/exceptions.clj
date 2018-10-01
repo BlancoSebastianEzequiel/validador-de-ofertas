@@ -1,8 +1,13 @@
 (ns exceptions
-  (require [convertions :refer :all]
-           [operators :refer :all]
+  (require ;;[convertions :refer :all]
+           ;;[operators :refer :all]
+           [clojure.data.json :as json]
   )
 )
+
+(defn json_to_map [j] (json/read-str j))
+(defn map_to_json [j] (json/write-str j))
+
 
 (def invalid_fields ["INVALID_METHOD" "NO_ONE"])
 
@@ -48,7 +53,10 @@
 
 (defmulti check_cycle_id
   (fn [rules]
-    (apply_op "OR" (are_cycle_rules rules) nil)
+    ;; Aca usaremos el multimetodo apply_op una vez que
+    ;; mergeemos a development
+    ;;(apply_op "OR" (are_cycle_rules rules) nil)
+    (if (some #{true} (are_cycle_rules rules)) true false)
   )
 )
 (defmethod check_cycle_id false [rules] rules)
