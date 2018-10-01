@@ -24,30 +24,36 @@
    )
  )
 
- (deftest unknown-id2-test
-    (is (thrown? Exception
-      (check_unknown_id "{}"))
-    )
+(deftest unknown-id2-test
+  (is (thrown? Exception
+    (check_unknown_id "{}"))
   )
+)
 
-  (deftest unknown-id3-test
-     (is (thrown? Exception
-       (check_unknown_id nil))
-     )
+(deftest unknown-id3-test
+   (is (thrown? Exception
+     (check_unknown_id nil))
    )
+ )
 
-   (deftest unknown-id4-test
-      (is (thrown? Exception
-        (check_unknown_id ""))
-      )
-    )
+(deftest unknown-id4-test
+  (is (thrown? Exception
+    (check_unknown_id ""))
+  )
+)
 
 
-    (deftest duplicated-codes-test
-       (is (thrown? Exception
-         (check_duplicate_codes [{"code" "75.10"}{"code" "75.10"}]))
-       )
-     )
-;;    (deftest check-cycle-test
-;;          (is (empty? (check_cycle [{"code" "X" "rules" "Y"}{"code" "Y" "rules" "X"}])))
-;;      )
+(deftest duplicated-codes-test
+   (is (thrown? Exception
+     (check_duplicate_codes [{"code" "75.10"}{"code" "75.10"}]))
+   )
+)
+
+(def cycle_rules
+  [ {"code" "X" "rules" "Y"} {"code" "Y" "rules" "X"} ]
+)
+
+(deftest check-cycle-test
+  (is (thrown? Exception
+    (check_cycle_id cycle_rules)))
+)
