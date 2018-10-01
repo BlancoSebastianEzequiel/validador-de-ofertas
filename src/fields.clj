@@ -13,9 +13,11 @@
 )
 
 (defn rule_field_path [rule]
+  ; Translate the first value of the path in order to fit with our structure
   (assoc (get_path rule) 0 (translate (first (get_path rule))))
 )
 
 (defn get_field [product rule]
+  ; Fetch the value in the path given from rule_field_path
   (get-in product (rule_field_path rule))
 )
