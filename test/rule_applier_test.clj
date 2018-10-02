@@ -58,9 +58,9 @@
   {
     "code" "PRODUCTO_NO_PHILLEP"
     "description" "Producto no es marca Phillep"
-    "type" "DISTINCT"
+    "type" "EQUALS"
     "field" "PRODUCT.brand.code"
-    "value" "Phillep"
+    "value" "Z001ABCC"
   }
 )
 
@@ -75,10 +75,40 @@
   }
 )
 
+(def product1
+  {
+    "products" {
+      "name" "Leche Descremada 1L, la Calmisima"
+      "brand" { "code" "Z001ABC" "name" "La Calmisima" }
+      "category" { "code" "X033AXX" "name" "Lacteo" }
+      "price"  25.40
+      "iva_porcentage" 10.5
+      "code" "X033XXX"
+    }
+    "payment" {
+      "method" "CASH"
+      "bank" "CAPRO"
+    }
+    "purchase_date" {
+        "year" "2018"
+        "month" "SEPTEMBER"
+        "day_number" 20
+        "week_day" "Thursday"
+        "week_number" 4
+    }
+  }
+)
 
 
-(add_rules [rule1 rule2 rule3 rule4])
 
-(deftest apply-equal-test
+(add_rules [rule1 rule2 rule3 rule4 rule5 rule6 rule7])
+
+(deftest get-rule-test
   (is (= (get_rule "PRICE_LOWER_10000") rule4))
+)
+
+(def codes ["PAGO_CAPRO" "PRODUCTO_NO_PHILLEP"])
+
+(deftest apply-rules-test
+  (is (= (apply_rules codes product1) [true false]))
 )
