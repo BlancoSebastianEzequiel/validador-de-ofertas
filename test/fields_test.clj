@@ -96,6 +96,69 @@
   }
 )
 
+(def prod2
+  {
+    "products" {
+      "name" "Leche Descremada 1L, la Calmisima"
+      "brand" { "code" "Z001ABC" "name" "La Calmisima" }
+      "category" { "code" "X033AXX" "name" "Lacteo" }
+      "price"  25.40
+      "iva_porcentage" 10.5
+      "code" "X033XXX"
+    }
+    "payment" { "method" "CASH" "bank" "CAPRO" }
+    "purchase_date" {
+        "year" "2018"
+        "month" "SEPTEMBER"
+        "day_number" 20
+        "week_day" "Thursday"
+        "week_number" 4
+    }
+  }
+)
+
+(def bad_payment_prod
+  {
+    "products" {
+      "name" "Leche Descremada 1L, la Calmisima"
+      "brand" { "code" "Z001ABC" "name" "La Calmisima" }
+      "category" { "code" "X033AXX" "name" "Lacteo" }
+      "price"  25.40
+      "iva_porcentage" 10.5
+      "code" "X033XXX"
+    }
+    "payment" { "method" "INVALID_METHOD" "bank" "CAPRO" }
+    "purchase_date" {
+        "year" "2018"
+        "month" "SEPTEMBER"
+        "day_number" 20
+        "week_day" "Thursday"
+        "week_number" 4
+    }
+  }
+)
+
+(def bad_bank_prod
+  {
+    "products" {
+      "name" "Leche Descremada 1L, la Calmisima"
+      "brand" { "code" "Z001ABC" "name" "La Calmisima" }
+      "category" { "code" "X033AXX" "name" "Lacteo" }
+      "price"  25.40
+      "iva_porcentage" 10.5
+      "code" "X033XXX"
+    }
+    "payment" { "method" "CASH" "bank" "NO_ONE" }
+    "purchase_date" {
+        "year" "2018"
+        "month" "SEPTEMBER"
+        "day_number" 20
+        "week_day" "Thursday"
+        "week_number" 4
+    }
+  }
+)
+
 
 (deftest get-field-rule1-test
   (testing "field rule1"
@@ -130,4 +193,19 @@
 (deftest get-field-rule7-test
   (testing "field rule7"
   (is (= (get_field prod1 rule7) "CAPRO")))
+)
+
+(deftest get-month-translated-test
+  (testing "month SEPTEMBER to SEPTIEMBRE"
+  (is (= (get_field prod1 rule1) "SEPTIEMBRE")))
+)
+
+(deftest bad-payment-method-test
+  (testing "invalid method payment field"
+  (is (thrown? Exception (get_field bad_payment_prod rule5))))
+)
+
+(deftest bad-payment-bank-test
+  (testing "invalid bank field"
+  (is (thrown? Exception (get_field bad_bank_prod rule7))))
 )

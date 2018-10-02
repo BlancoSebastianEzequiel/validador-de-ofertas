@@ -1,12 +1,9 @@
 (ns exceptions
-  (require ;;[convertions :refer :all]
-           ;;[operators :refer :all]
-           [clojure.data.json :as json]
+  (require [convertions :refer :all]
+           [operators :refer :all]
+         
   )
 )
-
-(defn json_to_map [j] (json/read-str j))
-(defn map_to_json [j] (json/write-str j))
 
 
 (def invalid_fields ["INVALID_METHOD" "NO_ONE"])
@@ -17,11 +14,11 @@
 (defmethod check_field true [field msg] (throw (Exception. msg)))
 (defmethod check_field false [field msg] field)
 ;;------------------------------------------------------------------------------
-(defmulti check_unknown_id
-  (fn [id]
-    (empty? (json_to_map id))
-  )
-)
+(defmulti is_json (fn [id] (= (type id) java.lang.String)))
+(defmethod is_json true [id] (empty? (json_to_map id)))
+(defmethod is_json false [id] (empty? id))
+;;------------------------------------------------------------------------------
+(defmulti check_unknown_id (fn [id] (is_json id)))
 (defmethod check_unknown_id false [id] id)
 (defmethod check_unknown_id true [id] (throw (Exception. "empty id")))
 ;;------------------------------------------------------------------------------
@@ -53,10 +50,7 @@
 
 (defmulti check_cycle_id
   (fn [rules]
-    ;; Aca usaremos el multimetodo apply_op una vez que
-    ;; mergeemos a development
-    ;;(apply_op "OR" (are_cycle_rules rules) nil)
-    (if (some #{true} (are_cycle_rules rules)) true false)
+    (apply_op "OR" (are_cycle_rules rules) nil)
   )
 )
 (defmethod check_cycle_id false [rules] rules)
