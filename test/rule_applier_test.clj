@@ -107,6 +107,10 @@
   (is (= (get_rule "PRICE_LOWER_10000") rule4))
 )
 
+(deftest get-not-existence-rule-test
+  (is (thrown? Exception (get_rule "DOES_NOT_EXIST")))
+)
+
 (def codes ["PAGO_CAPRO" "PRODUCTO_NO_PHILLEP"])
 
 (deftest apply-rules-test
