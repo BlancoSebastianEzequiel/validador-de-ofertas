@@ -1,7 +1,19 @@
 (ns fields
   (require [clojure.string :as str]
+           [exceptions :refer :all]
+           [translations :refer [translate]
+                         :rename {translate translate_month}
+           ]
   )
 )
+
+(defmulti is_month
+  (fn [path field] (= path ["purchase_date" "month"]))
+)
+(defmethod is_month true [path field]
+  (translate_month field)
+)
+(defmethod is_month false [path field] field)
 
 (defmulti translate (fn [value] value))
 (defmethod translate "PRODUCT" [value] "products")
@@ -19,5 +31,12 @@
 
 (defn get_field [product rule]
   ; Fetch the value in the path given from rule_field_path
-  (get-in product (rule_field_path rule))
+  (let
+    [
+      path (rule_field_path rule)
+      field (get-in product path)
+      field_translation (is_month path field)
+    ]
+    (check_field field_translation "invalid field")
+  )
 )
