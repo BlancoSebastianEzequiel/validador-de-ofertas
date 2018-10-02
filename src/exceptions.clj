@@ -17,11 +17,11 @@
 (defmethod check_field true [field msg] (throw (Exception. msg)))
 (defmethod check_field false [field msg] field)
 ;;------------------------------------------------------------------------------
-(defmulti check_unknown_id
-  (fn [id]
-    (empty? (json_to_map id))
-  )
-)
+(defmulti is_json (fn [id] (= (type id) java.lang.String)))
+(defmethod is_json true [id] (empty? (json_to_map id)))
+(defmethod is_json false [id] (empty? id))
+;;------------------------------------------------------------------------------
+(defmulti check_unknown_id (fn [id] (is_json id)))
 (defmethod check_unknown_id false [id] id)
 (defmethod check_unknown_id true [id] (throw (Exception. "empty id")))
 ;;------------------------------------------------------------------------------
