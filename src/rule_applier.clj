@@ -2,7 +2,7 @@
   (require [clojure.string :only (split)]
            [operators :refer :all]
            [fields :refer :all]
-           ;;[exceptions :refer :all]
+           [exceptions :refer :all]
            ;;[convertions :refer :all]
            ;;[insertions :refer :all] this is not implemented yet
   )
@@ -13,9 +13,17 @@
 (defn add_rules [r] (def rules_vector r))
 
 (defn get_rule [rule_code]
-  """Como retorna un clojure.lang.LazySeq que es de esta forma ({rule})
-  me quedo con el mapa que retorna que sabemos que es unico"""
-  (first (filter (fn [x] (= (x "code") rule_code)) rules_vector))
+  """
+  Como retorna un clojure.lang.LazySeq que es de esta forma
+  ({rule}) me quedo con el mapa que retorna que sabemos que
+  es unico
+  """
+  (let
+    [
+      rule (first (filter (fn [x] (= (x "code") rule_code)) rules_vector))
+    ]
+    (check_unknown_id rule)
+  )
 )
 
 (defn apply_atomic_rule [rule prod]
