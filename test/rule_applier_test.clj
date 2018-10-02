@@ -76,8 +76,9 @@
 )
 
 
-(def rules_vector [rule1 rule2 rule3 rule4])
+
+(add_rules [rule1 rule2 rule3 rule4])
 
 (deftest apply-equal-test
-  (is (= (get_rule "PRICE_LOWER_10000") rule4)
+  (is (= (get_rule "PRICE_LOWER_10000") rule4))
 )
