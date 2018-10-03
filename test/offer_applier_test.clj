@@ -117,3 +117,9 @@
     )
   )
 )
+
+(def sale (json_to_map sale1))
+
+(deftest apply-discount-to-product
+  (testing "This test applies a discount to product"
+  (is (= (apply_discount offer1 ((nth (sale "products") 0) "price")) (float 2.54)))))
