@@ -1,7 +1,29 @@
-(ns offer-processor)
+(ns offer-processor
+  (require [offer_applier :refer :all]
+           [convertions :refer :all]
+           [insertions :refer :all]
+  )
+)
 
 (defn initialize-offers [offers rules]
-  nil)
+  (do
+    (add_rule rules) (add_offer offers)
+  )
+  "created"
+)
 
 (defn process-sale [state sale]
-  nil)
+  (map_to_json
+    (vec
+      (apply concat
+        (for
+          [
+            o offers_vector
+            :let [result (apply_offer o (json_to_map sale))]
+          ]
+          result
+        )
+      )
+    )
+  )
+)
