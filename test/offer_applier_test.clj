@@ -1,8 +1,8 @@
 (ns offer_applier_test
   (:require [clojure.test :refer :all]
             [offer_applier :refer :all]
-            [rule_applier :refer :all]
             [convertions :refer :all]
+            [insertions :refer :all]
   )
 )
 
@@ -104,7 +104,7 @@
   ]"
 )
 
-(add_rules (json_to_map rules))
+(add_rule rules)
 
 (deftest apply-offer-to-product
   (testing "This test applies any offer to any product only"

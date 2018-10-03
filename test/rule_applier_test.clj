@@ -1,6 +1,8 @@
 (ns rule_applier_test
   (:require [clojure.test :refer :all]
             [rule_applier :refer :all]
+            [insertions :refer :all]
+            [convertions :refer :all]
   )
 )
 
@@ -134,7 +136,9 @@
 
 
 
-(add_rules [rule1 rule2 rule3 rule4 rule5 rule6 rule7 rule8])
+(add_rule
+  (map_to_json [rule1 rule2 rule3 rule4 rule5 rule6 rule7 rule8])
+)
 
 (deftest get-rule-test
   (is (= (get_rule "PRICE_LOWER_10000") rule4))
