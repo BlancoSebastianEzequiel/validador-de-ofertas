@@ -3,14 +3,9 @@
            [operators :refer :all]
            [fields :refer :all]
            [exceptions :refer :all]
-           ;;[convertions :refer :all]
-           ;;[insertions :refer :all] this is not implemented yet
+           [insertions :refer :all]
   )
 )
-;; declaro este vector para poder testear esta unidad,
-;; pero esto va a estar implementado en insertions
-(def rules_vector [])
-(defn add_rules [r] (def rules_vector r))
 
 (defn get_rule [rule_code]
   """
