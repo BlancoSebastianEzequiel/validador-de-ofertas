@@ -19,7 +19,11 @@
         (for
           [
             o offers_vector
-            :let [result (apply_offer o (json_to_map sale))]
+            :let
+            [
+              no_value (pass_rules rules_vector)
+              result (apply_offer o (json_to_map sale))
+            ]
           ]
           result
         )

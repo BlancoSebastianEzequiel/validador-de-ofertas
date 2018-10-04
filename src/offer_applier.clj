@@ -4,6 +4,8 @@
   )
 )
 
+(defn pass_rules [r] (put_rules r))
+
 (defn str_to_double [s] (Double/parseDouble s))
 
 (defn apply_discount [offer price]
