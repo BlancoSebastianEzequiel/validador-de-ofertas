@@ -1,8 +1,7 @@
 (ns data-definitions
   (:require [clojure.data.json :as json]))
 
-(defn normalize-data [j]
-  (json/write-str (json/read-str j)))
+(defn normalize-data [j] (json/write-str (json/read-str j)))
 
 ;; Rules
 (def common-rules (normalize-data "[
@@ -258,43 +257,43 @@
             \"discount\": 2.44
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 3.81
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 3.66
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 2.16
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 2.01
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 1.71
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 1.86
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 2.16
         },
         {
-            \"offer_code\": \"OF0002\",
             \"description\": \"15% de descuento pagando con credito o debito, excepto banco CAPRO\",
+            \"offer_code\": \"OF0002\",
             \"discount\": 1.26
         }
     ]"))
