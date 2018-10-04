@@ -25,3 +25,7 @@
 (defmethod apply_op "NOT" [op values field]
   (not values)
 )
+
+(defmethod apply_op "DISTINCT" [op values field]
+  (not (= values field))
+)

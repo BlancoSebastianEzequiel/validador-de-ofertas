@@ -2,7 +2,6 @@
   (:require [clojure.test :refer :all]
             [offer_applier :refer :all]
             [convertions :refer :all]
-            [insertions :refer :all]
   )
 )
 
@@ -104,7 +103,7 @@
   ]"
 )
 
-(add_rule rules)
+(pass_rules rules)
 
 (deftest apply-offer-to-product
   (testing "This test applies any offer to any product only"

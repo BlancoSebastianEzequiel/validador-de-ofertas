@@ -3,9 +3,10 @@
            [operators :refer :all]
            [fields :refer :all]
            [exceptions :refer :all]
-           [insertions :refer :all]
   )
 )
+
+(defn put_rules [r] (def rules_vector r))
 
 (defn get_rule [rule_code]
   """

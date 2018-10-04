@@ -58,7 +58,7 @@
   {
     "code" "PRODUCTO_NO_PHILLEP"
     "description" "Producto no es marca Phillep"
-    "type" "DISTINCT"
+    "type" "NOT"
     "field" "PRODUCT.brand.code"
     "value" "Phillep"
   }

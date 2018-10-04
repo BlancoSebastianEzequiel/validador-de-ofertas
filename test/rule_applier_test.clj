@@ -1,12 +1,10 @@
 (ns rule_applier_test
   (:require [clojure.test :refer :all]
             [rule_applier :refer :all]
-            [insertions :refer :all]
-            [convertions :refer :all]
   )
 )
 
-(def rule1
+(def rule_1
   {
     "code" "MES_SEPTIEMBRE"
     "description" "EL MES ES SEPTIEMBRE"
@@ -16,7 +14,7 @@
   }
 )
 
-(def rule2
+(def rule_2
   {
     "code" "PRODUCTO_LACTEO"
     "description" "PRODUCTO ES CATEGORIA LACTEO"
@@ -26,7 +24,7 @@
   }
 )
 
-(def rule3
+(def rule_3
   {
     "code" "ELECTRO_LIQ"
     "description" "PRODUCTO CON DESCUENTO ESPECIAL"
@@ -36,7 +34,7 @@
   }
 )
 
-(def rule4
+(def rule_5
   {
     "code" "PRICE_LOWER_10000"
     "description" "Producto con precio menor a 10000"
@@ -56,7 +54,7 @@
   }
 )
 
-(def rule6
+(def rule_6
   {
     "code" "PRODUCTO_NO_PHILLEP"
     "description" "Producto no es marca Phillep"
@@ -67,7 +65,7 @@
 )
 
 
-(def rule7
+(def rule_7
   {
     "code" "PAGO_CAPRO"
     "description" "Pago con tarjeta de banco macro"
@@ -77,7 +75,7 @@
   }
 )
 
-(def rule8
+(def rule_8
   {
     "code" "NOT_CAPRO"
     "description" "Pago con tarjeta de banco macro"
@@ -86,7 +84,7 @@
   }
 )
 
-(def product1
+(def prod_1
   {
     "products" {
       "name" "Leche Descremada 1L, la Calmisima"
@@ -110,7 +108,7 @@
   }
 )
 
-(def product2
+(def prod_2
   {
     "products" {
       "name" "Leche Descremada 1L, la Calmisima"
@@ -136,12 +134,10 @@
 
 
 
-(add_rule
-  (map_to_json [rule1 rule2 rule3 rule4 rule5 rule6 rule7 rule8])
-)
+(put_rules [rule_1 rule_2 rule_3 rule_5 rule5 rule_6 rule_7 rule_8])
 
 (deftest get-rule-test
-  (is (= (get_rule "PRICE_LOWER_10000") rule4))
+  (is (= (get_rule "PRICE_LOWER_10000") rule_5))
 )
 
 (deftest get-not-existence-rule-test
@@ -151,11 +147,21 @@
 (def codes1 ["PAGO_CAPRO" "PRODUCTO_NO_PHILLEP"])
 
 (deftest apply-rules-test
-  (is (= (apply_rules codes1 product1) [true false]))
+  (let
+    [
+      no_value (put_rules [rule_1 rule_2 rule_3 rule_5 rule5 rule_6 rule_7 rule_8])
+    ]
+    (is (= (apply_rules codes1 prod_1) [true false]))
+  )
 )
 
 (def codes2 ["NOT_CAPRO" "PRODUCTO_NO_PHILLEP"])
 
 (deftest apply-not-atomic-rules-test
-  (is (= (apply_rules codes2 product2) [true false]))
+  (let
+    [
+      no_value (put_rules [rule_1 rule_2 rule_3 rule_5 rule5 rule_6 rule_7 rule_8])
+    ]
+    (is (= (apply_rules codes2 prod_2) [true false]))
+  )
 )
