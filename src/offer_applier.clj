@@ -78,6 +78,7 @@
 )
 
 (defn cart [colls]
+  "hace un producto cartesiano de todos contra todos"
   (if (empty? colls)
     [[]]
     (vec
@@ -103,6 +104,9 @@
 )
 
 (defn filter_repeated [vecs]
+  "Esta funcion no anda, pero quiero que si existe esto: vecs = [[1 2 3] [4 5 6] [1 7 8]]
+  filtre el vector [1 2 3] o [1 7 8] ya que el uno esta en ambos y solo puede cada numero
+  puede aparecer una vez. Esta funcion deberia hacer eso. Cada numero seria un producto"
   (for
     [ v1 vecs ]
     (for
@@ -115,17 +119,6 @@
         ]
       ]
     )
-  )
-)
-
-(defn filter_equals [vecs]
-  (for
-    [
-      v1 vecs v2 vecs
-      :let [ is_equal (= v1 v2) ]
-      :when (not is_equal)
-    ]
-    v1
   )
 )
 
