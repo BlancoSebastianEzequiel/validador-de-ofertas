@@ -103,6 +103,137 @@
   ]"
 )
 
+(def competiton_offer
+  {
+    "description" "15 pesos de descuento llevando dos Leche Descremada1L, la Calmisima"
+    "code" "OF0003"
+    "rule" {
+      "type" "EXCLUSIVE_AND"
+      "code" "DOS_L_LA_CALMISIMA"
+      "rules" ["PRODUCTO_LA_CALMISIMA_LECHE_1" "PRODUCTO_LA_CALMISIMA_LECHE_1"]
+    }
+    "discount" {
+      "type" "FIXED"
+      "value" "15"
+    }
+  }
+)
+
+(def rule_competition
+  {
+    "code" "PRODUCTO_LA_CALMISIMA_LECHE_1"
+    "description" "Producto es Leche descremanda la calmisima por 1L"
+    "type" "EQUALS"
+    "field" "PRODUCT.brand.code"
+    "value" "Z001ABC"
+  }
+)
+
+(def sale_competition
+  [
+    {
+      "products"
+      [
+        {
+          "name" "Leche Descremada 1L, la Calmisima"
+          "brand" {
+            "code" "Z001ABC"
+            "name" "La Calmisima"
+          }
+          "category" {
+          "code" "X033AXX"
+          "name" "Lacteo"
+          }
+          "price" 25.40
+          "iva_porcentage" 10.5
+          "code" "AAR001"
+        }
+        {
+          "name" "Leche Descremada 1L, la Calmisima"
+          "brand" {
+            "code" "Z001ABC"
+            "name" "La Calmisima"
+          }
+          "category" {
+            "code" "X033AXX"
+            "name" "Lacteo"
+          }
+          "price" 25.40
+          "iva_porcentage" 10.5
+          "code" "AAR001"
+        }
+        {
+          "name" "Leche Descremada 1L, la Calmisima"
+          "brand" {
+            "code" "Z001ABC"
+            "name" "La Calmisima"
+          }
+          "category" {
+            "code" "X033AXX"
+            "name" "Lacteo"
+          }
+          "price" 25.40
+          "iva_porcentage" 10.5
+          "code" "AAR001"
+        }
+        {
+          "name" "Leche Descremada 1L, la Calmisima"
+          "brand" {
+            "code" "Z001ABC"
+            "name" "La Calmisima"
+          }
+          "category" {
+            "code" "X033AXX"
+            "name" "Lacteo"
+          }
+          "price" 25.40
+          "iva_porcentage" 10.5
+          "code" "AAR001"
+        }
+        {
+          "name" "Leche Descremada 1L, la Calmisima"
+          "brand" {
+            "code" "Z001ABC"
+            "name" "La Calmisima"
+          }
+          "category" {
+            "code" "X033AXX"
+            "name" "Lacteo"
+          }
+          "price" 25.40
+          "iva_porcentage" 10.5
+          "code" "AAR001"
+        }
+    ]
+    "payment" {
+        "method" "CREDIT"
+        "bank" "PARISIA"
+    }
+    "purchase_date" {
+        "year" "2018"
+        "month" "SEPTEMBER"
+        "day_number" 20
+        "week_day" "Thursday"
+        "week_number" 4
+    }
+  ]
+)
+
+(def result_competition
+  [
+    {
+      "description" "​ 15 pesos de descuento llevando dos Leche Descremada 1L, la Calmisima​ "
+      "offer_code" "OF0003"
+      "discount" 15
+    }
+    {
+      "description" "​ 15 pesos de descuento llevando dos Leche Descremada 1L, la Calmisima​ "
+      "offer_code" "OF0003"
+      "discount" 15
+    }
+  ]
+)
+
 (pass_rules rules)
 
 (deftest apply-offer-to-product
@@ -122,3 +253,15 @@
 (deftest apply-discount-to-product
   (testing "This test applies a discount to product"
   (is (= (apply_discount offer1 ((nth (sale "products") 0) "price")) (float 2.54)))))
+
+(deftest competition-test
+  (testing "This test"
+    (let
+      [
+        result (map_to_json (apply_offer competiton_offer (json_to_map sale_competition)))
+        expected_result (map_to_json result_competition)
+      ]
+      (is (= result expected_result))
+    )
+  )
+)
