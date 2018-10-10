@@ -104,25 +104,35 @@
 
 (defn filter_repeated [vecs]
   (for
+    [ v1 vecs ]
+    (for
+      [
+        v2 vecs
+        :let
+        [
+          is_repeated (not (= nil (some (set v2) v1)))
+          is_equal (= v1 v2)
+        ]
+      ]
+    )
+  )
+)
+
+(defn filter_equals [vecs]
+  (for
     [
       v1 vecs v2 vecs
-      :let
-      [
-        is_repeated (not (= nil (some (set v2) v1)))
-        is_equal (= v1 v2)
-      ]
+      :let [ is_equal (= v1 v2) ]
+      :when (not is_equal)
     ]
-    (if (and (not is_equal) (not is_repeated))
-      v1
-      (filter_repeated (vec_remove vecs v2))
-    )
+    v1
   )
 )
 
 (def filter_tuples [tuples]
   (let
     [
-      not_equals (map (fn [v] (not (apply = tuples))) tuples)
+      not_equals (vec (distinct tuples))
       not_repeated (filter_repeated not_equals)
     ]
     not_repeated
