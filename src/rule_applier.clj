@@ -65,6 +65,18 @@
 )
 
 
+(defn apply_rule_to_products [rule_code products]
+  (vec
+    (for
+      [
+        p products
+        :let [ rule (get_rule rule_code) ]
+      ]
+      (atomic_rule rule p)
+    )
+  )
+)
+
 (defn apply_rules [rules_codes prod]
   "
   un producto en esta funcion esta representado como el siguiente ejemplo:
