@@ -16,7 +16,6 @@
   """
   (let
     [
-      j (print rules_vector)
       rule (first (filter (fn [x] (= (x "code") rule_code)) rules_vector))
     ]
     (check_unknown_id rule)
@@ -72,8 +71,9 @@
       [
         p products
         :let [ rule (get_rule rule_code) ]
+        :when (atomic_rule rule p)
       ]
-      (atomic_rule rule p)
+      p
     )
   )
 )

@@ -10,12 +10,18 @@
 
 (defn str_to_double [s] (Double/parseDouble s))
 
-(defn apply_discount [offer price]
+(defmulti apply_discount (fn [offer price] (get-in offer ["discount" "type"])))
+
+(defmethod apply_discount "PERCENTAGE" [offer price]
   ;; price * p / 100
   (let
     [ p (str_to_double ((offer "discount") "value")) ]
     (.floatValue (* price (/ p 100)))
   )
+)
+
+(defmethod apply_discount "FIXED" [offer price]
+  (Integer. (get-in offer ["discount" "value"]))
 )
 
 (defn get_offer_result [offer products]
@@ -80,44 +86,43 @@
   )
 )
 
-(defn vec_remove [coll value]
-  "remove elem in coll"
-  (let
-    [
-      pos (.indexOf coll value)
-    ]
-    (vec (concat (subvec coll 0 pos) (subvec coll (inc pos))))
-  )
-)
-
-; (filter_repeated [[1 2 3] [4 5 6] [1 7 8]]) > [[1 2 3] [4 5 6]] o [[4 5 6] [1 7 8]]
-; (filter_repeated [[1 2 3] [4 3 6] [1 7 8]]) > [[1 2 3]] o [[4 3 6]] o [[1 7 8]]
-
-(defn is_repetead [v1 v2] (not (= nil (some (set v2) v1))))
-
-(defn find_first [vecs prod]
-  (first
-    (filter (fn [v] (apply_op "IN" v prod)) vecs)
-  )
-)
-
-(defn filter_repeated [vecs comp]
+(defn filter_repeated [vecs]
   "Esta funcion no anda, pero quiero que si existe esto: vecs = [[1 2 3] [4 5 6] [1 7 8]]
   filtre el vector [1 2 3] o [1 7 8] ya que el uno esta en ambos y solo puede cada numero
   puede aparecer una vez. Esta funcion deberia hacer eso. Cada numero seria un producto"
-  (let
-    [ prods (flatten vecs) ]
-    (map (fn [aProd] (find_first vecs aProd)) prods)
+  (if (empty? vecs)
+    [[]]
+    (let
+      [
+        not_repeated
+        (vec
+          (distinct
+            (map
+              (fn [v1]
+                (let
+                  [
+                    comp (filter (fn [v2] (= nil (some (set v2) v1))) vecs)
+                    r (filter_repeated comp)
+                  ]
+                  (if (empty? r) [[]] (first comp))
+                )
+              )
+            vecs)
+          )
+        )
+      ]
+      (if (= [nil] not_repeated) (first vecs) not_repeated)
+    )
   )
 )
 
 (defn filter_tuples [tuples]
   (let
     [
-      not_equals (vec (distinct tuples))
+      not_equals (distinct tuples)
       not_repeated (filter_repeated not_equals)
     ]
-    not_repeated
+    (flatten not_repeated)
   )
 )
 
@@ -126,6 +131,7 @@
     [
       prods (get_product_that_met_each_rule offer sale)
       combination (cart prods)
+
     ]
     (filter_tuples combination)
   )
@@ -148,7 +154,7 @@
   (let
     [
       rules_size (count (get-in offer ["rule" "rules"]))
-      prods_size (count (get-in offer ["products"]))
+      prods_size (count (get-in sale ["products"]))
     ]
     (if (< prods_size rules_size)
       []
@@ -177,7 +183,10 @@
 
 (defn apply_offer [offer sale]
   (let
-    [ products (get_products_that_met_the_rules offer sale) ]
-    (get_offer_result offer products)
+    [
+      products (get_products_that_met_the_rules offer sale)
+      result (get_offer_result offer products)
+    ]
+    result
   )
 )
