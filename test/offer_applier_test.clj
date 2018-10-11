@@ -21,6 +21,22 @@
   }
 )
 
+(def competiton_offer
+  {
+    "description" "15 pesos de descuento llevando dos Leche Descremada1L, la Calmisima"
+    "code" "OF0003"
+    "rule" {
+      "type" "EXCLUSIVE_AND"
+      "code" "DOS_L_LA_CALMISIMA"
+      "rules" ["PRODUCTO_LA_CALMISIMA_LECHE_1" "PRODUCTO_LA_CALMISIMA_LECHE_1"]
+    }
+    "discount" {
+      "type" "FIXED"
+      "value" "15"
+    }
+  }
+)
+
 (def sale1
   "
   {
@@ -69,71 +85,10 @@
   "
 )
 
-(def result1
-  [
-    {
-      "description" "10% de descuento en lácteos durante Septiembre"
-      "offer_code" "OF0001"
-      "discount" 2.54
-    }
-    {
-      "description" "10% de descuento en lácteos durante Septiembre"
-      "offer_code" "OF0001"
-      "discount" 2.44
-    }
-  ]
-)
-
-(def rules
-  "[
-    {
-        \"code\": \"MES_SEPTIEMBRE\",
-        \"description\": \"EL MES ES SEPTIEMBRE\",
-        \"type\": \"EQUALS\",
-        \"field\": \"CALENDAR.month\",
-        \"value\": \"SEPTIEMBRE\"
-    },
-    {
-        \"code\": \"PRODUCTO_LACTEO\",
-        \"description\": \"PRODUCTO ES CATEGORIA LACTEO\",
-        \"type\": \"EQUALS\",
-        \"field\": \"PRODUCT.category.code\",
-        \"value\": \"X033AXX\"
-    }
-  ]"
-)
-
-(def competiton_offer
-  {
-    "description" "15 pesos de descuento llevando dos Leche Descremada1L, la Calmisima"
-    "code" "OF0003"
-    "rule" {
-      "type" "EXCLUSIVE_AND"
-      "code" "DOS_L_LA_CALMISIMA"
-      "rules" ["PRODUCTO_LA_CALMISIMA_LECHE_1" "PRODUCTO_LA_CALMISIMA_LECHE_1"]
-    }
-    "discount" {
-      "type" "FIXED"
-      "value" "15"
-    }
-  }
-)
-
-(def rule_competition
-  {
-    "code" "PRODUCTO_LA_CALMISIMA_LECHE_1"
-    "description" "Producto es Leche descremanda la calmisima por 1L"
-    "type" "EQUALS"
-    "field" "PRODUCT.brand.code"
-    "value" "Z001ABC"
-  }
-)
-
 (def sale_competition
-  [
+  (map_to_json
     {
-      "products"
-      [
+      "products" [
         {
           "name" "Leche Descremada 1L, la Calmisima"
           "brand" {
@@ -141,8 +96,8 @@
             "name" "La Calmisima"
           }
           "category" {
-          "code" "X033AXX"
-          "name" "Lacteo"
+            "code" "X033AXX"
+            "name" "Lacteo"
           }
           "price" 25.40
           "iva_porcentage" 10.5
@@ -205,18 +160,60 @@
           "code" "AAR001"
         }
     ]
-    "payment" {
-        "method" "CREDIT"
-        "bank" "PARISIA"
+      "payment" {
+          "method" "CREDIT"
+          "bank" "PARISIA"
+      }
+      "purchase_date" {
+          "year" "2018"
+          "month" "SEPTEMBER"
+          "day_number" 20
+          "week_day" "Thursday"
+          "week_number" 4
+      }
     }
-    "purchase_date" {
-        "year" "2018"
-        "month" "SEPTEMBER"
-        "day_number" 20
-        "week_day" "Thursday"
-        "week_number" 4
+  )
+)
+
+(def result1
+  [
+    {
+      "description" "10% de descuento en lácteos durante Septiembre"
+      "offer_code" "OF0001"
+      "discount" 2.54
+    }
+    {
+      "description" "10% de descuento en lácteos durante Septiembre"
+      "offer_code" "OF0001"
+      "discount" 2.44
     }
   ]
+)
+
+(def rules
+  "[
+    {
+        \"code\": \"MES_SEPTIEMBRE\",
+        \"description\": \"EL MES ES SEPTIEMBRE\",
+        \"type\": \"EQUALS\",
+        \"field\": \"CALENDAR.month\",
+        \"value\": \"SEPTIEMBRE\"
+    },
+    {
+        \"code\": \"PRODUCTO_LACTEO\",
+        \"description\": \"PRODUCTO ES CATEGORIA LACTEO\",
+        \"type\": \"EQUALS\",
+        \"field\": \"PRODUCT.category.code\",
+        \"value\": \"X033AXX\"
+    },
+    {
+      \"code\": \"PRODUCTO_LA_CALMISIMA_LECHE_1\",
+      \"description\": \"Producto es Leche descremanda la calmisima por 1L\",
+      \"type\": \"EQUALS\",
+      \"field\": \"PRODUCT.brand.code\",
+      \"value\": \"Z001ABC\"
+    }
+  ]"
 )
 
 (def result_competition
@@ -234,12 +231,11 @@
   ]
 )
 
-(pass_rules rules)
-
 (deftest apply-offer-to-product
   (testing "This test applies any offer to any product only"
     (let
       [
+        no_value (pass_rules rules)
         result (map_to_json (apply_offer offer1 (json_to_map sale1)))
         expected_result (map_to_json result1)
       ]
@@ -258,6 +254,7 @@
   (testing "This test"
     (let
       [
+        no_value (pass_rules rules)
         result (map_to_json (apply_offer competiton_offer (json_to_map sale_competition)))
         expected_result (map_to_json result_competition)
       ]

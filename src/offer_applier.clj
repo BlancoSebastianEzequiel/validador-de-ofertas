@@ -32,25 +32,12 @@
 
 (defn get_path [rule] (str/split (rule "field") #"\."))
 
-(defmulti get_products_that_met_the_rules
-  (fn [offer sale]
-    (let
-      [
-        op (get-in offer ["rule" "type"])
-        key_word (first (str/split op #"\_"))
-
-      ]
-      (= key_word "EXCLUSIVE")
-    )
-  )
-)
-
 (defn change_product_format [p sale]
   (let
     [
       a {"products" p}
       b {"payment" (sale "payment")}
-      c {"purchase_date" (sale "purchase_date")
+      c {"purchase_date" (sale "purchase_date")}
     ]
     (merge a b c)
   )
@@ -103,26 +90,28 @@
   )
 )
 
-(defn filter_repeated [vecs]
-  "Esta funcion no anda, pero quiero que si existe esto: vecs = [[1 2 3] [4 5 6] [1 7 8]]
-  filtre el vector [1 2 3] o [1 7 8] ya que el uno esta en ambos y solo puede cada numero
-  puede aparecer una vez. Esta funcion deberia hacer eso. Cada numero seria un producto"
-  (for
-    [ v1 vecs ]
-    (for
-      [
-        v2 vecs
-        :let
-        [
-          is_repeated (not (= nil (some (set v2) v1)))
-          is_equal (= v1 v2)
-        ]
-      ]
-    )
+; (filter_repeated [[1 2 3] [4 5 6] [1 7 8]]) > [[1 2 3] [4 5 6]] o [[4 5 6] [1 7 8]]
+; (filter_repeated [[1 2 3] [4 3 6] [1 7 8]]) > [[1 2 3]] o [[4 3 6]] o [[1 7 8]]
+
+(defn is_repetead [v1 v2] (not (= nil (some (set v2) v1))))
+
+(defn find_first [vecs prod]
+  (first
+    (filter (fn [v] (apply_op "IN" v prod)) vecs)
   )
 )
 
-(def filter_tuples [tuples]
+(defn filter_repeated [vecs comp]
+  "Esta funcion no anda, pero quiero que si existe esto: vecs = [[1 2 3] [4 5 6] [1 7 8]]
+  filtre el vector [1 2 3] o [1 7 8] ya que el uno esta en ambos y solo puede cada numero
+  puede aparecer una vez. Esta funcion deberia hacer eso. Cada numero seria un producto"
+  (let
+    [ prods (flatten vecs) ]
+    (map (fn [aProd] (find_first vecs aProd)) prods)
+  )
+)
+
+(defn filter_tuples [tuples]
   (let
     [
       not_equals (vec (distinct tuples))
@@ -139,6 +128,19 @@
       combination (cart prods)
     ]
     (filter_tuples combination)
+  )
+)
+
+(defmulti get_products_that_met_the_rules
+  (fn [offer sale]
+    (let
+      [
+        op (get-in offer ["rule" "type"])
+        key_word (first (str/split op #"\_"))
+
+      ]
+      (= key_word "EXCLUSIVE")
+    )
   )
 )
 

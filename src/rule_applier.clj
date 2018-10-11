@@ -16,6 +16,7 @@
   """
   (let
     [
+      j (print rules_vector)
       rule (first (filter (fn [x] (= (x "code") rule_code)) rules_vector))
     ]
     (check_unknown_id rule)
