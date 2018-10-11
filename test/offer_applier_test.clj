@@ -92,7 +92,7 @@
         {
           "name" "Leche Descremada 1L, la Calmisima"
           "brand" {
-            "code" "Z001ABC"
+            "code" "Z001ABCD"
             "name" "La Calmisima"
           }
           "category" {
@@ -106,7 +106,7 @@
         {
           "name" "Leche Descremada 1L, la Calmisima"
           "brand" {
-            "code" "Z001ABC"
+            "code" "Z001ABCD"
             "name" "La Calmisima"
           }
           "category" {
@@ -120,7 +120,7 @@
         {
           "name" "Leche Descremada 1L, la Calmisima"
           "brand" {
-            "code" "Z001ABC"
+            "code" "Z001ABCD"
             "name" "La Calmisima"
           }
           "category" {
@@ -134,7 +134,7 @@
         {
           "name" "Leche Descremada 1L, la Calmisima"
           "brand" {
-            "code" "Z001ABC"
+            "code" "Z001ABCD"
             "name" "La Calmisima"
           }
           "category" {
@@ -148,7 +148,7 @@
         {
           "name" "Leche Descremada 1L, la Calmisima"
           "brand" {
-            "code" "Z001ABC"
+            "code" "Z001ABCD"
             "name" "La Calmisima"
           }
           "category" {
@@ -211,7 +211,7 @@
       \"description\": \"Producto es Leche descremanda la calmisima por 1L\",
       \"type\": \"EQUALS\",
       \"field\": \"PRODUCT.brand.code\",
-      \"value\": \"Z001ABC\"
+      \"value\": \"Z001ABCD\"
     }
   ]"
 )
@@ -219,12 +219,12 @@
 (def result_competition
   [
     {
-      "description" "​ 15 pesos de descuento llevando dos Leche Descremada 1L, la Calmisima​ "
+      "description" "15 pesos de descuento llevando dos Leche Descremada1L, la Calmisima"
       "offer_code" "OF0003"
       "discount" 15
     }
     {
-      "description" "​ 15 pesos de descuento llevando dos Leche Descremada 1L, la Calmisima​ "
+      "description" "15 pesos de descuento llevando dos Leche Descremada1L, la Calmisima"
       "offer_code" "OF0003"
       "discount" 15
     }
@@ -235,7 +235,7 @@
   (testing "This test applies any offer to any product only"
     (let
       [
-        no_value (pass_rules rules)
+        no_value (pass_rules (json_to_map rules))
         result (map_to_json (apply_offer offer1 (json_to_map sale1)))
         expected_result (map_to_json result1)
       ]
@@ -254,7 +254,7 @@
   (testing "This test"
     (let
       [
-        no_value (pass_rules rules)
+        no_value (pass_rules (json_to_map rules))
         result (map_to_json (apply_offer competiton_offer (json_to_map sale_competition)))
         expected_result (map_to_json result_competition)
       ]
