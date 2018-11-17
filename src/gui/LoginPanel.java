@@ -2,10 +2,7 @@ package gui;
 
 import javax.swing.*;
 
-public class LoginPanel {
-
-    private JPanel panel = new JPanel();
-    private JFrame window;
+public class LoginPanel extends Panel {
 
     public LoginPanel(JFrame frame){
         this.window = frame;
@@ -15,7 +12,6 @@ public class LoginPanel {
         iniciar.setBounds(348, 410, 100, 30);
 
         JButton acercaDe = new JButton("Info");
-        //acercaDe.setBounds(690, 525, 70, 20);
         acercaDe.setBounds(690, 20, 70, 20);
 
         JComboBox rolSelect = new JComboBox();
@@ -52,9 +48,5 @@ public class LoginPanel {
         panel.add(rolSelect);
         panel.add(rolText);
         panel.add(aboutText);
-    }
-    
-    public JPanel getPanel(){
-        return panel;
     }
 }

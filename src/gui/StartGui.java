@@ -1,7 +1,7 @@
 package gui;
 
 import javax.swing.*;
-import gui.LoginPanel;
+import gui.*;
 
 public class StartGui {
 
@@ -27,8 +27,9 @@ public class StartGui {
 
     public static void main(String[] args){
         StartGui gui = new StartGui();
-        LoginPanel login = new LoginPanel(gui.getFrame());
-        
+        Panel login = new LoginPanel(gui.getFrame());
+        //Panel login = new BoxesPanel(gui.getFrame());
+
         gui.getFrame().getContentPane().add(login.getPanel());
         gui.refreshScreen();
     }
