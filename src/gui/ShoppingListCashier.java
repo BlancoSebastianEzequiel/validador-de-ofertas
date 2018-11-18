@@ -25,6 +25,8 @@ public class ShoppingListCashier extends Panel{
         //Avoid for the table is editable
         TableModel model = new DefaultTableModel(data, colNames){
 
+            private static final long serialVersionUID = 1L;
+
             public boolean isCellEditable(int row, int column){
                 return false;
             }
