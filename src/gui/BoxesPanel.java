@@ -14,11 +14,11 @@ public class BoxesPanel extends Panel{
         panel.setLayout(new GridBagLayout());
         panel.setBorder(new EmptyBorder(40,30,30,30));
 
-        JLabel cajasText = new JLabel("Estado de cajas");
+        JLabel textTitle = new JLabel("Estado de cajas");
         JPanel boxButtonsPanel = new JPanel(new GridLayout(3,7,20,20));
         JButton botonVolver = new JButton("Volver");
 
-        cajasText.setFont(cajasText.getFont().deriveFont(22.0f));
+        textTitle.setFont(textTitle.getFont().deriveFont(22.0f));
         boxButtonsPanel.setBorder(new EmptyBorder(40,0,80,0));
 
         GridBagConstraints components = new GridBagConstraints();
@@ -28,12 +28,12 @@ public class BoxesPanel extends Panel{
         components.gridheight = 1;
         components.weightx = 1.0;
         components.anchor = GridBagConstraints.WEST;
-        panel.add(cajasText, components);
+        panel.add(textTitle, components);
         components.anchor = GridBagConstraints.CENTER;
 
         for(int i = 1; i <= 21; i++){
             JButton boxButton = new JButton(String.valueOf(i));
-            boxButton.setFont(cajasText.getFont().deriveFont(20.0f));
+            boxButton.setFont(boxButton.getFont().deriveFont(20.0f));
             boxButton.setBackground(new Color(171,57,57));
             boxButton.setBorder(null);
             boxButton.setForeground(Color.white);
