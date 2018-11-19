@@ -9,19 +9,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 
-public class ProductList extends Panel{
+public class ShoppingListSupervisorPanel extends Panel{
 
-    public ProductList(JFrame frame){
+    public ShoppingListSupervisorPanel(JFrame frame){
         this.window = frame;
         panel.setLayout(new GridBagLayout());
         panel.setBorder(new EmptyBorder(40,30,30,30));
 
-        JLabel textTitle = new JLabel("Lista de productos");
-        JButton botonCancelarCompra = new JButton("Cancelar compra");
-        JButton botonCerrarCompra = new JButton("Cerrar compra");
-        JButton botonAgregarProducto = new JButton("Agregar producto");
-        String colNames[] = {"Producto","Código","Cantidad","Precio"};
-        String data[][] = {};
+        JLabel textTitle = new JLabel("Caja #: Lista de compras");
+        JButton botonVolver = new JButton("Volver");
+        JButton botonVerTicket = new JButton("Ver ticket");
+        JToggleButton botonOpenBox = new JToggleButton("Cerrada");
+        String colNames[] = {"ID de Compra","Fecha/Hora","Estado"};
+        String data[][] = {{"00000000","18-11-2018 13:25","En proceso"}, {"00000001","20-11-2018 17:41","Terminado"}};
         
         //Avoid for the table is editable
         TableModel model = new DefaultTableModel(data, colNames){
@@ -33,21 +33,21 @@ public class ProductList extends Panel{
             }
         };
 
-        JTable productList = new JTable(model);
-        productList.setFocusable(false);
-        productList.setRowHeight(30);
-        productList.getTableHeader().setReorderingAllowed(false);
+        JTable shoppingList = new JTable(model);
+        shoppingList.setFocusable(false);
+        shoppingList.setRowHeight(30);
+        shoppingList.getTableHeader().setReorderingAllowed(false);
                 
         //Center cells text
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        for(int i=0; i < productList.getColumnCount(); i++){
-            productList.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            productList.getColumnModel().getColumn(i).setResizable(false);
+        for(int i=0; i < shoppingList.getColumnCount(); i++){
+            shoppingList.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            shoppingList.getColumnModel().getColumn(i).setResizable(false);
         }
 
         textTitle.setFont(textTitle.getFont().deriveFont(22.0f));
-        JScrollPane sp = new JScrollPane(productList);
+        JScrollPane sp = new JScrollPane(shoppingList);
 
         sp.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(30,0,40,0), new EtchedBorder()));
         sp.getViewport().setBackground(Color.WHITE);
@@ -77,21 +77,21 @@ public class ProductList extends Panel{
         components.gridwidth = 1;
         components.gridheight = 1;
         components.anchor = GridBagConstraints.WEST;
-        panel.add(botonAgregarProducto, components);
+        panel.add(botonOpenBox, components);
 
         components.gridx = 1;
         components.gridy = 2;
         components.gridwidth = 1;
         components.gridheight = 1;
         components.anchor = GridBagConstraints.CENTER;
-        panel.add(botonCerrarCompra, components);
+        panel.add(botonVerTicket, components);
 
         components.gridx = 2;
         components.gridy = 2;
         components.gridwidth = 1;
         components.gridheight = 1;
         components.anchor = GridBagConstraints.EAST;
-        panel.add(botonCancelarCompra, components);
+        panel.add(botonVolver, components);
     }
 
 }

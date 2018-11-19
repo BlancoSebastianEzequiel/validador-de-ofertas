@@ -9,19 +9,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 
-public class ShoppingListSupervisor extends Panel{
+public class ShoppingListCashierPanel extends Panel{
 
-    public ShoppingListSupervisor(JFrame frame){
+    public ShoppingListCashierPanel(JFrame frame){
         this.window = frame;
         panel.setLayout(new GridBagLayout());
         panel.setBorder(new EmptyBorder(40,30,30,30));
 
-        JLabel textTitle = new JLabel("Caja #: Lista de compras");
+        JLabel textTitle = new JLabel("Lista de compras");
         JButton botonVolver = new JButton("Volver");
-        JButton botonVerTicket = new JButton("Ver ticket");
-        JToggleButton botonOpenBox = new JToggleButton("Cerrada");
-        String colNames[] = {"ID de Compra","Fecha/Hora","Estado"};
-        String data[][] = {{"00000000","18-11-2018 13:25","En proceso"}, {"00000001","20-11-2018 17:41","Terminado"}};
+        JButton botonOpenShop = new JButton("Abrir compra");
+        String colNames[] = {"ID de Compra","Fecha/Hora"};
+        String data[][] = {{"00000000","18-11-2018 13:25"}, {"00000001","20-11-2018 17:41"}};
         
         //Avoid for the table is editable
         TableModel model = new DefaultTableModel(data, colNames){
@@ -35,6 +34,7 @@ public class ShoppingListSupervisor extends Panel{
 
         JTable shoppingList = new JTable(model);
         shoppingList.setFocusable(false);
+        shoppingList.setRowSelectionAllowed(false);
         shoppingList.setRowHeight(30);
         shoppingList.getTableHeader().setReorderingAllowed(false);
                 
@@ -46,7 +46,7 @@ public class ShoppingListSupervisor extends Panel{
             shoppingList.getColumnModel().getColumn(i).setResizable(false);
         }
 
-        textTitle.setFont(textTitle.getFont().deriveFont(22.0f));
+        textTitle.setFont(textTitle.getFont().deriveFont(22.0f));    
         JScrollPane sp = new JScrollPane(shoppingList);
 
         sp.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(30,0,40,0), new EtchedBorder()));
@@ -55,7 +55,7 @@ public class ShoppingListSupervisor extends Panel{
         GridBagConstraints components = new GridBagConstraints();
         components.gridx = 0;
         components.gridy = 0;
-        components.gridwidth = 3;
+        components.gridwidth = 2;
         components.gridheight = 1;
         components.weightx = 1.0;
         components.anchor = GridBagConstraints.WEST;
@@ -64,7 +64,7 @@ public class ShoppingListSupervisor extends Panel{
 
         components.gridx = 0;
         components.gridy = 1;
-        components.gridwidth = 3;
+        components.gridwidth = 2;
         components.gridheight = 1;
         components.weighty = 1.0;
         components.fill = GridBagConstraints.BOTH;
@@ -77,16 +77,9 @@ public class ShoppingListSupervisor extends Panel{
         components.gridwidth = 1;
         components.gridheight = 1;
         components.anchor = GridBagConstraints.WEST;
-        panel.add(botonOpenBox, components);
+        panel.add(botonOpenShop, components);
 
         components.gridx = 1;
-        components.gridy = 2;
-        components.gridwidth = 1;
-        components.gridheight = 1;
-        components.anchor = GridBagConstraints.CENTER;
-        panel.add(botonVerTicket, components);
-
-        components.gridx = 2;
         components.gridy = 2;
         components.gridwidth = 1;
         components.gridheight = 1;

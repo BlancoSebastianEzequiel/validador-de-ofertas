@@ -29,10 +29,11 @@ public class StartGui {
         StartGui gui = new StartGui();
         //Panel login = new LoginPanel(gui.getFrame());
         //Panel login = new BoxesPanel(gui.getFrame());
-        //Panel login = new ShoppingListCashier(gui.getFrame());
-        //Panel login = new ShoppingListSupervisor(gui.getFrame());
+        //Panel login = new ShoppingListCashierPanel(gui.getFrame());
+        //Panel login = new ShoppingListSupervisorPanel(gui.getFrame());
+        //Panel login = new ProductListPanel(gui.getFrame());
 
-        Panel login = new ProductList(gui.getFrame());
+        Panel login = new TicketPanel(gui.getFrame());
 
         gui.getFrame().getContentPane().add(login.getPanel());
         gui.refreshScreen();
